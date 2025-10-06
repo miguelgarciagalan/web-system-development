@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Página Personal</title>
-  <style>
-    body {
-      max-width: 800px;      /* ancho máximo del contenido */
-      margin: 0 auto;        /* centra horizontalmente */
-      padding: 20px;         /* espacio interior */
-      font-family: Arial, sans-serif; /* letra más legible */
-    }
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Página Personal</title>
+    <!-- Enlazamos el CSS externo (requisito del ejercicio) -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
   <body>
-    <!-- Encabezado con nombre -->
+    <!-- ===== Encabezado ===== -->
     <header>
-      <h1>Miguel García Galán</h1>
+      <h1 class="subrayado">Miguel García Galán</h1>
+      <nav class="menu">
+        <a href="https://github.com/miguelgarciagalan" target="_blank" rel="noopener">Mi GitHub</a>
+        <a href="mailto:miguelgarciagalan@al.uloyola.es">Contacto</a>
+      </nav>
     </header>
 
-    <!-- Contenido principal -->
+    <!-- ===== Contenido principal ===== -->
     <main>
-      <!-- Sección de ejemplo con texto -->
+      <!-- Sección: Texto -->
       <section>
-        <h2><u>Texto</u></h2>
+        <h2 class="subrayado">Texto</h2>
         <p>
-          Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. 
-          Nulla viverra augue non <em>ligula sagittis</em>, nec ullamcorper urna maximus. 
+          Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>.
+          Nulla viverra augue non <em>ligula sagittis</em>, nec ullamcorper urna maximus.
           Suspendisse sit amet augue a enim laoreet volutpat.
         </p>
         <p>
-          Proin malesuada leo vitae pulvinar accumsan. Nam mollis nisi sed augue ullamcorper facilisis. 
-          Quisque cursus commodo condimentum. Ut pretium dolor et lorem tristique, at pulvinar tortor bibendum. 
-          Ut ex nisl, semper id odio et,<mark>rhoncus gravida massa.</mark> 
-          Etiam erat libero, dignissim sed scelerisque sit amet, condimentum eget mauris.
+          Proin malesuada leo vitae pulvinar accumsan. Nam mollis nisi sed augue ullamcorper facilisis.
+          Quisque cursus commodo condimentum. Ut pretium dolor et lorem tristique, at pulvinar tortor bibendum.
+          Ut ex nisl, semper id odio et, <mark>rhoncus gravida massa</mark>.
         </p>
 
-        <div style="text-align: center;">
-          <img src="/imagen.jpg" alt="Foto Loren Ipsum" width="200">
-        </div>
+        <!-- Imagen centrada -->
+        <figure class="foto">
+          <!-- Coloca la imagen en /public/imagen.jpg -->
+          <img src="/imagen.jpg" alt="Foto Lorem Ipsum" width="200" />
+          <figcaption>Imagen de ejemplo</figcaption>
+        </figure>
       </section>
 
-      <!-- Sección de ejemplo con más texto -->
+      <!-- Sección: Más texto -->
       <section>
-        <h2><u>Mas texto</u></h2>
+        <h2 class="subrayado">Más texto</h2>
         <p>
-          Aenean tincidunt tellus sem, et vestibulum nisi mollis id. In vel tellus purus. 
-          Duis lorem arcu, sagittis nec nisl a, <em>rutrum congue nulla</em>. Aenean malesuada, nibh vitae fringilla tincidunt, 
-          metus quam lobortis felis, et lacinia diam ex in justo.
+          Duis lorem arcu, sagittis nec nisl a, <em>rutrum congue nulla</em>. Aenean malesuada, nibh vitae
+          fringilla tincidunt, metus quam lobortis felis, et lacinia diam ex in justo.
         </p>
         <ul>
           <li>Nulla suscipit feugiat augue, ac porttitor diam semper ac</li>
@@ -55,38 +55,39 @@
         </ul>
       </section>
 
-      <!-- Sección de ejemplo con un poco más texto -->
+      <!-- Sección: Un poco más de texto -->
       <section>
-        <h2><u>Un poco más de texto</u></h2>
+        <h2 class="subrayado">Un poco más de texto</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nunc 
-          ac <q>urna luctus elementum</q>. Mauris eu arcu malesuada, interdum felis nec, 
-          tincidunt lacus. Praesent at neque quis urna cursus commodo. 
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nunc
+          ac <q>urna luctus elementum</q>. Mauris eu arcu malesuada, interdum felis nec,
+          tincidunt lacus. Praesent at neque quis urna cursus commodo.
         </p>
         <ol>
           <li>Nullam placerat quam quis auctor laoreet</li>
           <li>Etiam mattis consequat purus</li>
           <li>Sed lectus tortor, vestibulum ut vehicula in</li>
-          <li>pulvinar hendrerit ex</li>
+          <li>Pulvinar hendrerit ex</li>
         </ol>
         <p>
-          Vivamus sit amet magna ac leo cursus aliquet. Fusce vulputate 
-          pellentesque quam, vel euismod <strong>libero aliquet</strong> non. Sed fringilla 
-          imperdiet nisi vitae fermentum.
+          Vivamus sit amet magna ac leo cursus aliquet. Fusce vulputate pellentesque quam,
+          vel euismod <strong>libero aliquet</strong> non. Sed fringilla imperdiet nisi vitae fermentum.
         </p>
       </section>
+
+      <!-- Tarjeta de ejemplo (requisito: .card) -->
+      <div class="card">
+        <h3>Tarjeta de ejemplo</h3>
+        <p>Este bloque demuestra una tarjeta simple con fondo, padding, borde redondeado y sombra.</p>
+      </div>
     </main>
 
-    <!-- Pie de página -->
+    <!-- ===== Pie de página ===== -->
     <footer>
-      <nav>
-        <a href="https://github.com/miguelgarciagalan" target="_blank">Mi GitHub</a>
-      </nav>      
-      <p>
-        Contacto: 
+      <p>© 2025 · Miguel García Galán</p>
+      <address>
         <a href="mailto:miguelgarciagalan@al.uloyola.es">miguelgarciagalan@al.uloyola.es</a>
-      </p>
-
+      </address>
     </footer>
   </body>
 </html>

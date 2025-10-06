@@ -1,0 +1,105 @@
+/* ===== Base ===== */
+:root {
+  --bg: #f0f4f8;
+  --text: #333;
+  --brand: #0077b6;
+  --brand-2: #0096c7;
+  --panel: #ffffff;
+  --muted: #555;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* ===== Encabezado ===== */
+header {
+  background: var(--brand);
+  color: #fff;
+  padding: 22px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+}
+
+.menu {
+  margin-top: 8px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* Enlaces + hover */
+a {
+  color: #e6f7ff;
+  text-decoration: none;
+  font-weight: 700;
+}
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Subrayado elegante en títulos (mejor que <u>) */
+.subrayado {
+  display: inline-block;
+  padding-bottom: 4px;
+  border-bottom: 3px solid #caf0f8;
+}
+
+/* ===== Main / Panel ===== */
+main {
+  background: var(--panel);
+  padding: 24px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.10);
+}
+
+h2 { color: var(--brand); margin-top: 0; }
+h3 { color: var(--brand-2); }
+
+/* Imagen centrada dentro de figure */
+.foto {
+  text-align: center;
+  margin: 18px 0;
+}
+.foto img {
+  display: inline-block;
+  border-radius: 10px;
+}
+
+/* ===== Listas ===== */
+ul { list-style: square; padding-left: 28px; }
+ol { padding-left: 28px; }
+li { margin: 6px 0; color: #023e8a; }
+
+/* ===== Tarjeta ===== */
+.card {
+  background: #e0f7fa;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  border: 1px solid rgba(0,0,0,.06);
+  margin-top: 22px;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  color: var(--muted);
+  margin: 22px 0 10px;
+  font-size: .95rem;
+}
+footer a { color: var(--brand); }
+footer a:hover { color: var(--brand-2); }
+

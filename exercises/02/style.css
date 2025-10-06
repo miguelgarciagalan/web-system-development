@@ -1,105 +1,126 @@
 /* ===== Base ===== */
+/* Variables CSS (paleta y tokens de diseño reutilizables) */
 :root {
-  --bg: #f0f4f8;
-  --text: #333;
-  --brand: #0077b6;
-  --brand-2: #0096c7;
-  --panel: #ffffff;
-  --muted: #555;
+  --bg: #f0f4f8;   /* color de fondo global */
+  --text: #333;    /* color de texto base */
+  --brand: #0077b6;  /* color de marca principal (azul) */
+  --brand-2: #0096c7;/* variante secundaria de la marca */
+  --panel: #ffffff;  /* color de paneles / tarjetas (fondo blanco) */
+  --muted: #555;     /* color de texto atenuado (footer, detalles) */
 }
 
+/* Ajuste de box model para evitar sorpresas con padding/border */
 * { box-sizing: border-box; }
+
+/* Reset básico de márgenes/padding del documento */
 html, body { margin: 0; padding: 0; }
 
+/* Estilos globales del cuerpo */
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  line-height: 1.6;
+  font-family: Arial, Helvetica, sans-serif; /* tipografía legible y estándar */
+  background: var(--bg);                     /* usa el color de fondo global */
+  color: var(--text);                        /* color de texto base */
+  max-width: 900px;                          /* ancho máximo del contenido */
+  margin: 0 auto;                            /* centra el layout horizontalmente */
+  padding: 20px;                             /* respiración interna del contenido */
+  line-height: 1.6;                          /* altura de línea para mejor legibilidad */
 }
 
 /* ===== Encabezado ===== */
 header {
-  background: var(--brand);
-  color: #fff;
-  padding: 22px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  background: var(--brand);                  /* fondo azul de marca */
+  color: #fff;                               /* texto en blanco sobre azul */
+  padding: 22px;                             /* espacio interno del header */
+  border-radius: 14px;                       /* esquinas redondeadas */
+  text-align: center;                        /* centra el contenido del header */
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);    /* sombra suave para profundidad */
 }
 
+/* Navegación dentro del header */
 .menu {
-  margin-top: 8px;
-  display: flex;
-  gap: 14px;
-  justify-content: center;
+  margin-top: 8px;                           /* separación respecto al título */
+  display: flex;                             /* coloca los enlaces en línea */
+  gap: 14px;                                 /* espacio entre enlaces */
+  justify-content: center;                   /* centra la fila de enlaces */
 }
 
-/* Enlaces + hover */
-a {
-  color: #e6f7ff;
-  text-decoration: none;
-  font-weight: 700;
+/* ==== Estilo de enlaces con cambio al visitar (BLOQUE 2 - recomendado) ==== */
+/* a:link → estado de enlace no visitado */
+a:link {
+  color: #0077b6;           /* azul normal (marca) para enlaces nuevos */
+  text-decoration: none;    /* sin subrayado por defecto */
+  font-weight: bold;        /* negrita para visibilidad */
 }
+
+/* a:visited → tras haber hecho clic alguna vez */
+a:visited {
+  color: #023e8a;           /* azul más oscuro cuando ya fue visitado */
+}
+
+/* a:hover → al pasar el ratón encima */
 a:hover {
-  color: #fff;
-  text-decoration: underline;
+  color: #0096c7;           /* azul algo más claro en hover */
+  text-decoration: underline; /* subrayado como feedback */
 }
 
-/* Subrayado elegante en títulos (mejor que <u>) */
+/* a:active → mientras haces clic (estado activo) */
+a:active {
+  color: #03045e;           /* azul más oscuro al presionar */
+}
+
+/* Subrayado elegante en títulos (mejor que usar <u> en HTML) */
 .subrayado {
-  display: inline-block;
-  padding-bottom: 4px;
-  border-bottom: 3px solid #caf0f8;
+  display: inline-block;                    /* permite aplicar border-bottom de forma limpia */
+  padding-bottom: 4px;                      /* separa el texto de la línea */
+  border-bottom: 3px solid #caf0f8;         /* línea inferior estilo "subrayado" */
 }
 
 /* ===== Main / Panel ===== */
 main {
-  background: var(--panel);
-  padding: 24px;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,.10);
+  background: var(--panel);                 /* panel blanco sobre fondo gris claro */
+  padding: 24px;                            /* respiración interna del panel */
+  margin-top: 20px;                         /* separación respecto al header */
+  border-radius: 12px;                      /* esquinas redondeadas */
+  box-shadow: 0 6px 16px rgba(0,0,0,.10);   /* sombra suave para resaltar el panel */
 }
 
-h2 { color: var(--brand); margin-top: 0; }
-h3 { color: var(--brand-2); }
+/* Jerarquía visual de títulos dentro de main */
+h2 { color: var(--brand); margin-top: 0; }  /* h2 en azul de marca, sin margen superior extra */
+h3 { color: var(--brand-2); }               /* h3 con variante secundaria */
 
 /* Imagen centrada dentro de figure */
 .foto {
-  text-align: center;
-  margin: 18px 0;
+  text-align: center;                       /* centra el contenido del figure */
+  margin: 18px 0;                           /* separa la figura del texto circundante */
 }
 .foto img {
-  display: inline-block;
-  border-radius: 10px;
+  display: inline-block;                    /* permite que respete el centrado del figure */
+  border-radius: 10px;                      /* esquinas redondeadas en la imagen */
 }
 
 /* ===== Listas ===== */
-ul { list-style: square; padding-left: 28px; }
-ol { padding-left: 28px; }
-li { margin: 6px 0; color: #023e8a; }
+ul { list-style: square; padding-left: 28px; } /* viñetas cuadradas y sangría agradable */
+ol { padding-left: 28px; }                      /* sangría consistente con ul */
+li { margin: 6px 0; color: #023e8a; }          /* espacio entre ítems y color acorde a la paleta */
 
 /* ===== Tarjeta ===== */
 .card {
-  background: #e0f7fa;
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 8px 18px rgba(0,0,0,.12);
-  border: 1px solid rgba(0,0,0,.06);
-  margin-top: 22px;
+  background: #e0f7fa;                       /* fondo celeste claro para destacar */
+  padding: 18px;                              /* respiración de la tarjeta */
+  border-radius: 12px;                        /* esquinas redondeadas */
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);     /* sombra algo más marcada que el panel */
+  border: 1px solid rgba(0,0,0,.06);          /* borde sutil para definición */
+  margin-top: 22px;                           /* separación respecto a lo anterior */
 }
 
 /* ===== Footer ===== */
 footer {
-  text-align: center;
-  color: var(--muted);
-  margin: 22px 0 10px;
-  font-size: .95rem;
+  text-align: center;                         /* centra contenido del pie */
+  color: var(--muted);                        /* texto atenuado */
+  margin: 22px 0 10px;                        /* separaciones superior e inferior */
+  font-size: .95rem;                          /* tamaño ligeramente menor que el body */
 }
-footer a { color: var(--brand); }
-footer a:hover { color: var(--brand-2); }
+footer a { color: var(--brand); }             /* enlaces del footer con color de marca */
+footer a:hover { color: var(--brand-2); }     /* hover del footer coherente con paleta */
+
 

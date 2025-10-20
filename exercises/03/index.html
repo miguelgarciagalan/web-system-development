@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Tracker</title>
+  </head>
+  <body>
+    <h1>Budget Tracker</h1>
+
+    <form id="expense-form" novalidate>
+      <input id="expense-name" type="text" placeholder="Expense" />
+      <input id="expense-amount" type="text" placeholder="Amount" />
+      <button id="add-btn" type="button">Add Product</button>
+      <p id="error"></p>
+    </form>
+
+    <ul id="expense-list"></ul>
+    <p>Total: <span id="total">$0.00</span></p>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+

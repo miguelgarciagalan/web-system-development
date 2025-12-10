@@ -1,77 +1,85 @@
-// src/App.jsx
-import { Routes, Route, Navigate, Link, Outlet, useNavigate } from 'react-router-dom';
-import CalendarPage from './pages/CalendarPage.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import RegisterPage from './pages/RegisterPage.jsx';
-import TimerPage from './pages/TimerPage.jsx';
-import CalculatorPage from './pages/CalculatorPage.jsx';
-import { useAuth } from './context/AuthContext.jsx';
-import TimerWidget from './components/TimerWidget.jsx';
-import './styles/Calendar.css';
+import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import TransactionsPage from "./pages/TransactionsPage.jsx";
+import CategoriesPage from "./pages/CategoriesPage.jsx";
+import BudgetsPage from "./pages/BudgetsPage.jsx";
+
+export const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 const App = () => {
-  const { token, loading } = useAuth();
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
-  if (loading) {
-    return <div className="app-loading">Cargando...</div>;
-  }
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
 
-  return (
-    <div className="app">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            token ? <Navigate to="/calendar" replace /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route
-          element={token ? <AuthedShell /> : <Navigate to="/login" replace />}
-        >
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/timer" element={<TimerPage />} />
-          <Route path="/calculator" element={<CalculatorPage />} />
-        </Route>
-      </Routes>
-    </div>
-  );
-};
-
-const AuthedShell = () => {
-  const { logout, user } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login', { replace: true });
-  };
+  const privateRoute = (element) =>
+    token ? element : <Navigate to="/login" replace />;
 
   return (
-    <div>
-      <nav className="main-nav">
-        <div className="nav-left">
-          <span className="nav-brand">StudyCalendar</span>
-          <Link className="nav-link" to="/calendar">
-            Calendario / Lista
-          </Link>
-        </div>
-        <div className="nav-right">
-          {user && <span className="nav-user">Hola, {user.name}</span>}
-          <Link className="nav-link" to="/timer">
-            Timer
-          </Link>
-          <Link className="nav-link" to="/calculator">
-            Calculadora
-          </Link>
-          <button className="nav-link nav-logout" type="button" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </nav>
-      <TimerWidget />
-      <Outlet />
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+      {token && <Navbar onLogout={() => setToken(null)} />}
+      <main id="main-content">
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              token ? (
+                <Navigate to="/" replace />
+              ) : (
+                <LoginPage apiUrl={API_URL} onLogin={setToken} />
+              )
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              token ? (
+                <Navigate to="/" replace />
+              ) : (
+                <RegisterPage apiUrl={API_URL} onRegister={setToken} />
+              )
+            }
+          />
+          <Route
+            path="/"
+            element={privateRoute(
+              <DashboardPage apiUrl={API_URL} token={token} />
+            )}
+          />
+          <Route
+            path="/transactions"
+            element={privateRoute(
+              <TransactionsPage apiUrl={API_URL} token={token} />
+            )}
+          />
+          <Route
+            path="/categories"
+            element={privateRoute(
+              <CategoriesPage apiUrl={API_URL} token={token} />
+            )}
+          />
+          <Route
+            path="/budgets"
+            element={privateRoute(
+              <BudgetsPage apiUrl={API_URL} token={token} />
+            )}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
     </div>
   );
 };

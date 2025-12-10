@@ -1,78 +1,94 @@
-// src/pages/LoginPage.jsx
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-  const { login, setError, error } = useAuth();
+const LoginPage = ({ apiUrl, onLogin }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLocalError('');
-    setError('');
-
-    if (!email || !password) {
-      setLocalError('Ingresa email y contraseña');
-      return;
-    }
-
+    setError("");
+    setLoading(true);
     try {
-      setSubmitting(true);
-      await login(email, password);
-      navigate('/calendar', { replace: true });
-    } catch (err) {
-      setLocalError('Credenciales incorrectas');
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+      const res = await fetch(`${apiUrl}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        return;
+      }
+      onLogin(data.token);
+      navigate("/");
+    } catch (_err) {
+      setLoading(false);
+      setError("Network error");
     }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1 className="calendar-title" style={{ marginBottom: '0.25rem' }}>
-          StudyCalendar
-        </h1>
-        <h2 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Inicia sesión</h2>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <label className="form-label">
-            Email
+    <main className="page">
+      <section
+        className="card"
+        style={{ maxWidth: 460, margin: "60px auto" }}
+        aria-labelledby="login-heading"
+      >
+        <header>
+          <h1 id="login-heading" style={{ margin: "0 0 6px" }}>
+            Log in
+          </h1>
+          <p className="muted" style={{ margin: 0 }}>
+            Sign in to manage your spending.
+          </p>
+        </header>
+        <form
+          onSubmit={handleSubmit}
+          className="form-grid"
+          style={{ marginTop: 16 }}
+        >
+          <div className="form-field">
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
+              name="email"
               type="email"
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
+              autoComplete="email"
+              value={form.email}
+              onChange={handleChange}
+              required
             />
-          </label>
-          <label className="form-label">
-            Contraseña
+          </div>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
             <input
+              id="password"
+              name="password"
               type="password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="********"
+              autoComplete="current-password"
+              value={form.password}
+              onChange={handleChange}
+              required
             />
-          </label>
-          {(localError || error) && (
-            <p className="error-text">{localError || error}</p>
-          )}
-          <button type="submit" className="form-submit" disabled={submitting}>
-            {submitting ? 'Ingresando...' : 'Ingresar'}
+          </div>
+          {error && <div className="error-text">{error}</div>}
+          <button className="btn" type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Login"}
           </button>
         </form>
-        <p className="auth-switch">
-          ¿No tienes cuenta? <Link to="/register">Crear cuenta</Link>
+        <p className="muted" style={{ marginTop: 14 }}>
+          No account? <Link to="/register">Create one</Link>
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

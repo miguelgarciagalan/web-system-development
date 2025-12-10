@@ -1,89 +1,110 @@
-// src/pages/RegisterPage.jsx
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const RegisterPage = () => {
-  const { register, setError, error } = useAuth();
+const RegisterPage = ({ apiUrl, onRegister }) => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLocalError('');
-    setError('');
-
-    if (!name || !email || !password) {
-      setLocalError('Completa todos los campos');
+    setError("");
+    if (form.password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
-
+    setLoading(true);
     try {
-      setSubmitting(true);
-      await register(name, email, password);
-      navigate('/calendar', { replace: true });
-    } catch (err) {
-      setLocalError('No se pudo registrar, prueba con otro email');
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+      const res = await fetch(`${apiUrl}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (!res.ok) {
+        setError(data.error || "Registration failed");
+        return;
+      }
+      onRegister(data.token);
+      navigate("/");
+    } catch (_err) {
+      setLoading(false);
+      setError("Network error");
     }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1 className="calendar-title" style={{ marginBottom: '0.25rem' }}>
-          StudyCalendar
-        </h1>
-        <h2 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Crea tu cuenta</h2>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <label className="form-label">
-            Nombre
+    <main className="page">
+      <section
+        className="card"
+        style={{ maxWidth: 460, margin: "60px auto" }}
+        aria-labelledby="register-heading"
+      >
+        <header>
+          <h1 id="register-heading" style={{ margin: "0 0 6px" }}>
+            Create account
+          </h1>
+          <p className="muted" style={{ margin: 0 }}>
+            Start tracking your cash flow.
+          </p>
+        </header>
+        <form
+          onSubmit={handleSubmit}
+          className="form-grid"
+          style={{ marginTop: 16 }}
+        >
+          <div className="form-field">
+            <label htmlFor="name">Name</label>
             <input
-              type="text"
-              className="form-input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Tu nombre"
+              id="name"
+              name="name"
+              placeholder="Your name"
+              autoComplete="name"
+              value={form.name}
+              onChange={handleChange}
+              required
             />
-          </label>
-          <label className="form-label">
-            Email
+          </div>
+          <div className="form-field">
+            <label htmlFor="register-email">Email</label>
             <input
+              id="register-email"
+              name="email"
               type="email"
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
+              autoComplete="email"
+              value={form.email}
+              onChange={handleChange}
+              required
             />
-          </label>
-          <label className="form-label">
-            Contraseña
+          </div>
+          <div className="form-field">
+            <label htmlFor="register-password">Password</label>
             <input
+              id="register-password"
+              name="password"
               type="password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="********"
+              autoComplete="new-password"
+              value={form.password}
+              onChange={handleChange}
+              required
             />
-          </label>
-          {(localError || error) && (
-            <p className="error-text">{localError || error}</p>
-          )}
-          <button type="submit" className="form-submit" disabled={submitting}>
-            {submitting ? 'Creando...' : 'Crear cuenta'}
+          </div>
+          {error && <div className="error-text">{error}</div>}
+          <button className="btn" type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Register"}
           </button>
         </form>
-        <p className="auth-switch">
-          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        <p className="muted" style={{ marginTop: 14 }}>
+          Have an account? <Link to="/login">Login</Link>
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

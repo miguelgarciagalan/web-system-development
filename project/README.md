@@ -37,6 +37,7 @@ frontend/             React + Vite SPA
    cp .env.example .env   # set your values
    npm start              # API on PORT
   Frontend:
+   ```bash
     cd frontend
     npm install
     cp .env.example .env   # create and set VITE_API_URL

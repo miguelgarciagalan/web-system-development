@@ -42,7 +42,7 @@ frontend/             React + Vite SPA
     npm install
     cp .env.example .env   # create and set VITE_API_URL
     npm run dev            # Vite will show the URL
-
+   ````
 Open the Vite URL and ensure frontend/.env points to the backend (http://localhost:<PORT>/api).
 
 ## Environment Variables

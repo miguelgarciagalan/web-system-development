@@ -115,7 +115,6 @@ All relationships are enforced using foreign keys to ensure data integrity.
 The SQL schema is defined in:
 
 pgsql
-Copiar código
 docs/database.sql
 This script is executed automatically when the backend starts.
 

@@ -56,7 +56,6 @@ git clone <repository-url>
 cd web-system-development/project
 2. Backend setup
 bash
-Copiar código
 cd backend
 npm install
 cp .env.example .env
@@ -65,7 +64,6 @@ The backend API will run on the port defined in the .env file.
 
 3. Frontend setup
 bash
-Copiar código
 cd frontend
 npm install
 cp .env.example .env
@@ -75,7 +73,6 @@ Vite will display the local development URL in the terminal.
 Make sure that frontend/.env points to the backend API:
 
 bash
-Copiar código
 VITE_API_URL=http://localhost:<PORT>/api
 Environment Variables Needed
 Backend (backend/.env)
@@ -185,7 +182,6 @@ Authorization Header (Protected Routes)
 All private routes require the following header:
 
 makefile
-Copiar código
 Authorization: Bearer <token>
 Useful Scripts
 Backend
